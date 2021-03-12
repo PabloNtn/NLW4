@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { getCustomRepository } from "typeorm";
+import { AppError } from "../errors/AppError";
 import { SurveysUserRepository } from "../repositories/SurveyUserRepository";
 
 
@@ -15,9 +16,8 @@ class AnswerController {
         });
 
         if (!surveyUser) {
-            return response.status(400).json({
-                error: "Survey user does not exists!"
-            });
+            throw new AppError("Survey user does not exists!");
+
         }
 
         surveyUser.value = Number(value);
